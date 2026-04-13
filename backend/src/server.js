@@ -16,8 +16,7 @@ const PORT = ENV.PORT || 5005;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://chat-app-pegion-11.onrender.com",
-  "https://new-chat-app-inky.vercel.app/"
+  "https://new-chat-app-inky.vercel.app"
 ];
 app.use(cors({
   origin: allowedOrigins,

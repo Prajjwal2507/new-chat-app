@@ -27,13 +27,15 @@ function ProfileHeader() {
   };
 
   return (
-    <div className="p-6 border-b border-slate-700/50">
+    // ✅ Reduced padding on mobile
+    <div className="p-3 sm:p-6 border-b border-slate-700/50">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* AVATAR */}
           <div className="avatar online">
+            {/* ✅ Slightly smaller avatar on mobile */}
             <button
-              className="size-14 rounded-full overflow-hidden relative group"
+              className="size-10 sm:size-14 rounded-full overflow-hidden relative group"
               onClick={() => fileInputRef.current.click()}
             >
               <img
@@ -57,38 +59,36 @@ function ProfileHeader() {
 
           {/* USERNAME & ONLINE TEXT */}
           <div>
-            <h3 className="text-slate-200 font-medium text-base max-w-[180px] truncate">
+            {/* ✅ Smaller text + tighter truncate on mobile */}
+            <h3 className="text-slate-200 font-medium text-sm sm:text-base max-w-[120px] sm:max-w-[180px] truncate">
               {authUser.fullName}
             </h3>
-
             <p className="text-slate-400 text-xs">Online</p>
           </div>
         </div>
 
         {/* BUTTONS */}
-        <div className="flex gap-4 items-center">
-          {/* LOGOUT BTN */}
+        {/* ✅ Tighter gap on mobile */}
+        <div className="flex gap-2 sm:gap-4 items-center">
           <button
             className="text-slate-400 hover:text-slate-200 transition-colors"
             onClick={logout}
           >
-            <LogOutIcon className="size-5" />
+            <LogOutIcon className="size-4 sm:size-5" />
           </button>
 
-          {/* SOUND TOGGLE BTN */}
           <button
             className="text-slate-400 hover:text-slate-200 transition-colors"
             onClick={() => {
-              // play click sound before toggling
-              mouseClickSound.currentTime = 0; // reset to start
+              mouseClickSound.currentTime = 0;
               mouseClickSound.play().catch((error) => console.log("Audio play failed:", error));
               toggleSound();
             }}
           >
             {isSoundEnabled ? (
-              <Volume2Icon className="size-5" />
+              <Volume2Icon className="size-4 sm:size-5" />
             ) : (
-              <VolumeOffIcon className="size-5" />
+              <VolumeOffIcon className="size-4 sm:size-5" />
             )}
           </button>
         </div>

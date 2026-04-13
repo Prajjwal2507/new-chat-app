@@ -9,7 +9,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173" ,"https://chat-app-pegion-7.onrender.com", "https://chat-app-pegion.vercel.app"],
+    origin: ["http://localhost:5173" , "https://chat-app-pegion-11.onrender.com",
+  "https://new-chat-app-prgion.vercel.app"],
     credentials: true,
   },
 });

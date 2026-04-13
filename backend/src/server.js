@@ -18,8 +18,8 @@ const PORT = ENV.PORT || 5005;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://chat-app-pegion-7.onrender.com",
-  "https://chat-app-pegion.vercel.app"
+  "https://chat-app-pegion-11.onrender.com",
+  "https://new-chat-app-prgion.vercel.app"
 ];
 app.use(express.json({ limit : "5mb"})); // for parsing the json data that is comming from body
 app.use(cors({

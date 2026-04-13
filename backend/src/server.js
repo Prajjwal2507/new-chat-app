@@ -21,11 +21,12 @@ const allowedOrigins = [
   "https://chat-app-pegion-11.onrender.com",
   "https://new-chat-app-prgion.vercel.app"
 ];
-app.use(express.json({ limit : "5mb"})); // for parsing the json data that is comming from body
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
 }));
+
+app.use(express.json({ limit : "5mb"})); // for parsing the json data that is comming from body
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);

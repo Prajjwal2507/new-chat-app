@@ -12,7 +12,7 @@ import { app, server } from "./lib/socket.js";
 
 
 
-const PORT = ENV.PORT || 5005;
+const PORT = ENV.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:5173",

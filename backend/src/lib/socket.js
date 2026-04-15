@@ -5,6 +5,7 @@ import { ENV } from "./env.js";
 import { socketAuthMiddleware } from "../middleware/socket.auth.middleware.js";
 
 const app = express();
+app.set("trust proxy", 1);
 const server = http.createServer(app);
 
 const io = new Server(server, {

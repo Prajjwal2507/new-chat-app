@@ -15,8 +15,6 @@ function App() {
   }, [checkAuth]);
 
 
-  if (isCheckingAuth) return <PageLoader />;
-
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center sm:p-4 overflow-x-hidden">
       {/* DECORATORS - GRID BG & GLOW SHAPES */}

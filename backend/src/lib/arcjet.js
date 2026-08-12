@@ -8,9 +8,10 @@ const aj = arcjet({
     // Shield protects your app from common attacks e.g. SQL injection
     shield({ mode: "LIVE" }),
     // Create a bot detection rule
+    // Use DRY_RUN while testing automated clients like Claude Desktop MCP so
+    // they are logged but not blocked during local development.
     detectBot({
-      mode: "LIVE", // Blocks requests. Use "DRY_RUN" to log only
-      // Block all bots except the following
+      mode: "DRY_RUN", // Set back to "LIVE" in production after whitelisting automation
       allow: [
         "CATEGORY:SEARCH_ENGINE", // Google, Bing, etc
         // Uncomment to allow these other common bot categories

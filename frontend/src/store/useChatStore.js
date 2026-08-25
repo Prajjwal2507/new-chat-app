@@ -91,10 +91,14 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
+      const isMessageFromSelected = newMessage.senderId === selectedUser._id;
+      const isMessageToSelected = newMessage.receiverId === selectedUser._id;
+      if (!isMessageFromSelected && !isMessageToSelected) return;
 
       const currentMessages = get().messages;
+      // prevent duplicates if message was already added via api response
+      if (currentMessages.some((msg) => msg._id === newMessage._id)) return;
+
       set({ messages: [...currentMessages, newMessage] });
 
       if (isSoundEnabled) {

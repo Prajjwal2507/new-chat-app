@@ -14,14 +14,16 @@ import { app, server } from "./lib/socket.js";
 
 const PORT = ENV.PORT || 5000;
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://new-chat-app-inky.vercel.app"
-];
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+const allowedOrigins = process.env.FRONTEND_URLS!
+  .split(",")
+  .map(origin => origin.trim());
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(express.json({ limit : "5mb"})); // for parsing the json data that is comming from body
 app.use(cookieParser());

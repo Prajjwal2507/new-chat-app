@@ -71,8 +71,23 @@ export const useChatStore = create((set, get) => ({
       createdAt: new Date().toISOString(),
       isOptimistic: true, // flag to identify optimistic messages (optional)
     };
-    // immediately update the ui by adding the message
-    set((state) => ({ messages: [...state.messages, optimisticMessage] }));
+    // immediately update the ui by adding the message and moving chat to top
+    set((state) => {
+      const updatedChats = [...state.chats];
+      const chatIndex = updatedChats.findIndex((chat) => chat._id === selectedUser._id);
+      
+      if (chatIndex !== -1) {
+        const [chatUser] = updatedChats.splice(chatIndex, 1);
+        updatedChats.unshift(chatUser);
+      } else {
+        updatedChats.unshift(selectedUser);
+      }
+
+      return { 
+        messages: [...state.messages, optimisticMessage],
+        chats: updatedChats
+      };
+    });
 
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);

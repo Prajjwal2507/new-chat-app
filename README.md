@@ -10,17 +10,19 @@ A full-stack real-time chat application built with the MERN stack and Socket.io,
 
 ### Chat Application (Frontend & Backend)
 - 🔐 **Secure Authentication:** JWT-based auth with secure HTTP-only cookies.
+- 🔑 **API Key Generation:** Users can generate API keys to provide AI agents secure, token-based access without sharing passwords.
 - 💬 **Real-time Messaging:** Private messaging via WebSockets (Socket.io).
 - 🖼️ **Media Sharing:** Image sharing in chats via Cloudinary.
+- 📧 **Email Notifications:** Automatic Welcome emails powered by Resend.
 - 🟢 **Presence Tracking:** Online/offline indicators.
 - 🔔 **Interactive UI:** Keyboard sound effects (with toggle) and animated gradient borders.
-- 🖼️ **Profile Management:** Profile picture upload and updates.
+- 🖼️ **Profile Management:** Profile picture upload and custom API Key management.
 - 📱 **Responsive Design:** Fully optimized for mobile and desktop views.
 
 ### MCP Server Integration
-- 🤖 **AI Agent Bridge:** Connects Claude Desktop (or other AI agents) to your chat backend.
+- 🤖 **AI Agent Bridge:** Connects Claude Desktop (or other AI agents) to your chat backend using secure API Keys.
 - 🛠️ **Available Tools for AI:**
-  - `auth_signup` / `auth_login` / `auth_logout` / `auth_check_session`
+  - `auth_check_session` / `auth_update_profile`
   - `messages_get_contacts` / `messages_get_chats` / `messages_get_by_user`
   - `messages_send` (Send texts or images directly from Claude!)
 - ⚡ **Real-time Sync:** AI agents can interact with the live WebSocket broadcasting system.
@@ -32,9 +34,9 @@ A full-stack real-time chat application built with the MERN stack and Socket.io,
 | Category | Technologies |
 |----------|--------------|
 | **Frontend** | React (Vite), Tailwind CSS, DaisyUI, Zustand, Axios, Socket.io Client, React-Hot-Toast |
-| **Backend** | Node.js, Express, MongoDB, Mongoose, Socket.io, JWT, Cloudinary |
-| **MCP Server** | Python 3.12, FastMCP, HTTPX |
-| **Security** | Arcjet (rate-limiting & bot protection), HTTP-only Secure Cookies |
+| **Backend** | Node.js, Express, MongoDB, Mongoose, Socket.io, JWT, Cloudinary, Resend (Emails) |
+| **MCP Server** | Node.js, @modelcontextprotocol/sdk, Axios |
+| **Security** | Arcjet (rate-limiting & bot protection), HTTP-only Secure Cookies, SHA-256 API Key Hashing |
 | **Deployment** | Vercel (Frontend), Render (Backend + MCP), UptimeRobot (Keep-alive) |
 
 ---
@@ -60,29 +62,31 @@ chat-app-combined/
 │       ├── middleware/     # Auth middleware
 │       └── lib/            # DB, socket, env config
 │
-└── mcp_server/             # Model Context Protocol Server (Python)
-    ├── mcp_server.py       # Main FastMCP server implementation
-    ├── requirements.txt    # Python dependencies
-    └── .env                # MCP environment variables
+└── chat-app-mcp/           # Model Context Protocol Server (Node.js)
+    ├── index.js            # Main MCP server implementation
+    ├── package.json        # NPM dependencies
+    └── README.md           # MCP documentation
 ```
 
 ---
 
 ## 📦 How to Configure Claude Desktop for MCP
 
-> **TL;DR** – Add the JSON snippet below to your Claude Desktop configuration and restart the app.
->
-> **⚠️ Important Note on Cold Starts:**
-> The MCP server is hosted on a free tier instance on Render. Before using the MCP server locally, please wake it up by visiting **[this link](https://chat-app-mcp-server.onrender.com/)**. *(If it says "Not Found", the server is awake and ready!)*
+> **TL;DR** – Generate an API Key from your Chat App profile, add the JSON snippet below to your Claude Desktop configuration, and restart the app.
 
-### 1️⃣ Open the Config File
+### 1️⃣ Generate an API Key
+1. Log in to your Chat App account.
+2. Go to your **Profile settings**.
+3. Generate a new **API Key** and copy it to your clipboard.
+
+### 2️⃣ Open the Config File
 
 1. Open **Claude Desktop**.
 2. Click the **hamburger menu (☰)** → **Settings**.
 3. Go to **Developer** (under *Desktop app*).
 4. Click **Edit Config** to open your `claude_desktop_config.json`.
 
-### 2️⃣ Paste the MCP Server Entry
+### 3️⃣ Paste the MCP Server Entry
 
 Add the `"chat-app"` object inside your `"mcpServers"` dictionary:
 
@@ -91,17 +95,17 @@ Add the `"chat-app"` object inside your `"mcpServers"` dictionary:
   "mcpServers": {
     "chat-app": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://chat-app-mcp-server.onrender.com/sse"
-      ]
+      "args": ["-y", "chat-app-pigeon-mcp"],
+      "env": {
+        "CHAT_APP_API_KEY": "YOUR_API_KEY_HERE"
+      }
     }
   }
 }
 ```
+*Note: Replace `YOUR_API_KEY_HERE` with the key you generated in step 1.*
 
-### 3️⃣ Kill & Restart Claude Desktop
+### 4️⃣ Kill & Restart Claude Desktop
 
 Fully quit Claude (do not just close the window) so it reloads the config:
 
@@ -140,6 +144,8 @@ Authentication: JWT-based via HTTP-only cookie (`jwt`)
 - **`POST /api/auth/logout`** – Logs out current user.
 - **`PUT /api/auth/update-profile`** – Updates the authenticated user’s profile picture (requires Auth).
 - **`GET /api/auth/check`** – Validates session and returns user data (requires Auth).
+- **`POST /api/auth/generate-api-key`** – Generates a new API Key for the user (requires Auth).
+- **`DELETE /api/auth/api-key`** – Revokes the user's current API Key (requires Auth).
 
 ### 2. Message Endpoints (Auth Required)
 - **`GET /api/messages/contacts`** – Returns all users except the logged-in user.

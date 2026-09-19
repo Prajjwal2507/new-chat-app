@@ -124,12 +124,12 @@ taskkill /IM Claude.exe /F
 pkill -x "Claude"
 ```
 
-### 4️⃣ Verify & Use
+### 5️⃣ Verify & Use
 
-The plug icon 🔌 will now show the available tools. Try prompting:
-- *"Claude, **log in** to my chat app with email `test@example.com` and password `••••`."*
-- *"Claude, **list my contacts**."*
-- *"Claude, **send** a message to John saying 'Hey, how are you?'"*
+The plug icon 🔌 will now show the available tools in Claude Desktop. Because you configured your API Key, you **do not** need to provide your email and password to Claude! Just start chatting. Try prompting:
+- *"Claude, **list my chat contacts**."*
+- *"Claude, check my messages with Keshav."*
+- *"Claude, **send** a message to Keshav saying 'Hey, how are you?'"*
 
 ---
 

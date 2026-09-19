@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 import ProfileHeader from "../components/ProfileHeader";
 import ActiveTabSwitch from "../components/ActiveTabSwitch";
@@ -10,11 +11,14 @@ import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
 
 function ChatPage() {
   const { activeTab, selectedUser, subscribeToMessages, unsubscribeFromMessages } = useChatStore();
+  const { socket } = useAuthStore();
 
   useEffect(() => {
-    subscribeToMessages();
-    return () => unsubscribeFromMessages();
-  }, [subscribeToMessages, unsubscribeFromMessages]);
+    if (socket) {
+      subscribeToMessages();
+      return () => unsubscribeFromMessages();
+    }
+  }, [subscribeToMessages, unsubscribeFromMessages, socket]);
 
   return (
     // ✅ Full screen height on mobile, fixed height on desktop

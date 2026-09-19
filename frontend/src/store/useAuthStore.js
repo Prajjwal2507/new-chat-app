@@ -83,6 +83,32 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  generateApiKey: async () => {
+    try {
+      const res = await axiosInstance.post("/auth/generate-api-key");
+      toast.success("API Key generated successfully");
+      set((state) => ({ authUser: { ...state.authUser, apiKey: "hidden" } }));
+      return res.data.apiKey;
+    } catch (error) {
+      console.log("Error in generate API key:", error);
+      toast.error(error.response?.data?.message || "Failed to generate API Key");
+      return null;
+    }
+  },
+
+  deleteApiKey: async () => {
+    try {
+      await axiosInstance.delete("/auth/api-key");
+      set((state) => ({ authUser: { ...state.authUser, apiKey: null } }));
+      toast.success("API Key revoked successfully");
+      return true;
+    } catch (error) {
+      console.log("Error deleting API key:", error);
+      toast.error(error.response?.data?.message || "Failed to revoke API Key");
+      return false;
+    }
+  },
+
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;

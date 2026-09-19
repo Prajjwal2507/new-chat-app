@@ -4,6 +4,8 @@ import {
   login,
   logout,
   updateProfile,
+  generateApiKey,
+  deleteApiKey,
 } from "../controllers/auth.controllers.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
 import { arcjetProtection } from "../middleware/arcjet.middleware.js";
@@ -27,5 +29,8 @@ router.put("/update-profile", protectRoute, updateProfile);
 router.get("/check", protectRoute, (req, res) =>
   res.status(200).json(req.user),
 );
+
+router.post("/generate-api-key", protectRoute, generateApiKey);
+router.delete("/api-key", protectRoute, deleteApiKey);
 
 export default router;

@@ -1,0 +1,14 @@
+{
+  "name": "chat-app-pegion-mcp",
+  "version": "1.0.0",
+  "description": "An MCP server for the Chat App, enabling AI agents to interact with user data.",
+  "type": "module",
+  "bin": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "axios": "^1.7.7"
+  }
+}

@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
@@ -133,6 +134,37 @@ export const updateProfile = async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (error) {
     console.log("Error in update profile:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const generateApiKey = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const rawApiKey = `chat_live_${crypto.randomBytes(32).toString("hex")}`;
+
+    const hashedApiKey = crypto
+      .createHash("sha256")
+      .update(rawApiKey)
+      .digest("hex");
+
+    await User.findByIdAndUpdate(userId, { apiKey: hashedApiKey });
+
+    res.status(200).json({ apiKey: rawApiKey });
+  } catch (error) {
+    console.error("Error in generateApiKey:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const deleteApiKey = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    await User.findByIdAndUpdate(userId, { apiKey: null });
+    res.status(200).json({ message: "API Key deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteApiKey:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

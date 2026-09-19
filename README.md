@@ -2,7 +2,7 @@
 
 A full-stack real-time chat application built with the MERN stack and Socket.io, now tightly integrated with a **Model Context Protocol (MCP) server**. This setup allows AI agents (like Claude Desktop) to authenticate, read message history, fetch contacts, and send messages—all in real-time.
 
-**Live Demo UI:** [new-chat-app-inky.vercel.app](https://new-chat-app-inky.vercel.app/)
+**Live Demo UI:** [chat.prajjwal-rajput.dev](https://chat.prajjwal-rajput.dev/)
 
 ---
 

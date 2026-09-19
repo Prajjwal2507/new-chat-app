@@ -13,7 +13,7 @@ This is the official Model Context Protocol (MCP) server for Chat App. It allows
   "mcpServers": {
     "chat-app": {
       "command": "npx",
-      "args": ["-y", "chat-app-pegion-mcp"],
+      "args": ["-y", "chat-app-pigeon-mcp"],
       "env": {
         "CHAT_APP_API_KEY": "YOUR_API_KEY_HERE"
       }

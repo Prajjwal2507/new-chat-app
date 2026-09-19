@@ -1,5 +1,5 @@
 {
-  "name": "chat-app-pegion-mcp",
+  "name": "chat-app-pigeon-mcp",
   "version": "1.0.0",
   "description": "An MCP server for the Chat App, enabling AI agents to interact with user data.",
   "type": "module",

@@ -9,14 +9,14 @@
 },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Prajjwal2507/chat-app-pegion.git"
+    "url": "git+https://github.com/Prajjwal2507/chat-app-pigeon.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Prajjwal2507/chat-app-pegion/issues"
+    "url": "https://github.com/Prajjwal2507/chat-app-pigeon/issues"
   },
-  "homepage": "https://github.com/Prajjwal2507/chat-app-pegion#readme"
+  "homepage": "https://github.com/Prajjwal2507/chat-app-pigeon#readme"
 }

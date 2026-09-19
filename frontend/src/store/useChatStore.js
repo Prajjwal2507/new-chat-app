@@ -106,26 +106,45 @@ export const useChatStore = create((set, get) => ({
   },
 
   subscribeToMessages: () => {
-    const { selectedUser, isSoundEnabled } = get();
-    if (!selectedUser) return;
-
     const socket = useAuthStore.getState().socket;
     if (!socket) return;
 
+    // Remove any existing listener to avoid duplicates
+    socket.off("newMessage");
+
     socket.on("newMessage", (newMessage) => {
-      const isMessageFromSelected = newMessage.senderId === selectedUser._id;
-      const isMessageToSelected = newMessage.receiverId === selectedUser._id;
-      if (!isMessageFromSelected && !isMessageToSelected) return;
+      const { selectedUser, isSoundEnabled, chats } = get();
+      const { authUser } = useAuthStore.getState();
 
-      const currentMessages = get().messages;
-      // prevent duplicates if message was already added via api response
-      if (currentMessages.some((msg) => msg._id === newMessage._id)) return;
+      // Update chats list to move sender/receiver to top
+      const otherUserId = newMessage.senderId === authUser._id ? newMessage.receiverId : newMessage.senderId;
+      const chatIndex = chats.findIndex((chat) => chat._id === otherUserId);
+      
+      let updatedChats = [...chats];
+      if (chatIndex !== -1) {
+        const [chatUser] = updatedChats.splice(chatIndex, 1);
+        updatedChats.unshift(chatUser);
+        set({ chats: updatedChats });
+      } else {
+        // If the user isn't in our chats list, refetch chats
+        get().getMyChatPartners();
+      }
 
-      set({ messages: [...currentMessages, newMessage] });
+      // Add to current open chat if applicable
+      if (selectedUser) {
+        const isMessageFromSelected = newMessage.senderId === selectedUser._id;
+        const isMessageToSelected = newMessage.receiverId === selectedUser._id;
+        
+        if (isMessageFromSelected || isMessageToSelected) {
+          const currentMessages = get().messages;
+          if (!currentMessages.some((msg) => msg._id === newMessage._id)) {
+            set({ messages: [...currentMessages, newMessage] });
+          }
+        }
+      }
 
       if (isSoundEnabled) {
         const notificationSound = new Audio("/sounds/notification.mp3");
-
         notificationSound.currentTime = 0; // reset to start
         notificationSound.play().catch((e) => console.log("Audio play failed:", e));
       }

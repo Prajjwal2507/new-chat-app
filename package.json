@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
-  "build": "npm install --prefix backend && npm install --prefix frontend --include=dev && npm run build --prefix frontend",
-  "start": "npm run start --prefix backend"
-},
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend --include=dev && npm install --prefix chat-app-mcp",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run install:all && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Prajjwal2507/chat-app-pigeon.git"
@@ -18,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Prajjwal2507/chat-app-pigeon/issues"
   },
-  "homepage": "https://github.com/Prajjwal2507/chat-app-pigeon#readme"
+  "homepage": "https://github.com/Prajjwal2507/chat-app-pigeon#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
 }

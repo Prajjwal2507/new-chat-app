@@ -41,6 +41,42 @@ A full-stack real-time chat application built with the MERN stack and Socket.io,
 
 ---
 
+## 🚀 Local Development Setup
+
+To get a local copy up and running, follow these simple steps.
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Prajjwal2507/chat-app-pigeon.git
+cd chat-app-pigeon
+```
+
+### 2. Install Dependencies
+We have a unified script to install all dependencies across the project:
+```bash
+npm run install:all
+```
+
+### 3. Setup Environment Variables
+- **Backend**: Copy `backend/.env.example` to `backend/.env` and fill in your MongoDB, Cloudinary, and Resend credentials.
+- **Frontend**: Copy `frontend/.env.example` to `frontend/.env`.
+
+### 4. Start the Application
+Run both the frontend and backend servers concurrently:
+```bash
+npm run dev
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to submit pull requests, report issues, and suggest features.
+
+---
+
 ## 📂 Project Structure
 
 ```text

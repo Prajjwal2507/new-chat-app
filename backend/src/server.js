@@ -14,7 +14,7 @@ import { app, server } from "./lib/socket.js";
 
 const PORT = ENV.PORT || 5000;
 
-const allowedOrigins = process.env.FRONTEND_URLS
+const allowedOrigins = (process.env.FRONTEND_URLS || process.env.CLIENT_URL || "http://localhost:5173")
   .split(",")
   .map(origin => origin.trim());
 

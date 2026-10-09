@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Backend Service (Node.js/Express)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pigeon-backend
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./backend/.env
+    # The environment variables in your .env file (like your MongoDB Atlas URL)
+    # will automatically be passed into the container because of the line above!
+    environment:
+      - PORT=5005
+    networks:
+      - pigeon-network
+    restart: unless-stopped
+
+# Define a custom bridge network
+networks:
+  pigeon-network:
+    driver: bridge
